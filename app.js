@@ -69,8 +69,8 @@ app.post('/book', function(req, res) {
 
 app.post('/book2', function(req, res) {
   Book.create(req.body, function(err, book) {
-    if(err) {
-      
+    if(err ) {
+
       console.log(err);
       res.send('error saving book');
     } else {
