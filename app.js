@@ -22,12 +22,17 @@ app.get('/', function(req, res) {
 
 app.get('/books', function(req, res) {
   console.log('getting all books');
+  //Here the object passed to find() is empty. This means that no constraint is set 
+  //to what we are looking for and all objects in the database should be returned.
+  
   Book.find({})
     .exec(function(err, books) {
       if(err) {
         res.send('error occured')
       } else {
         console.log(books);
+//If everything went well, the result of the query (in our case an array of goals) is
+//sent back to the client formatted as JSON. 
         res.json(books);
       }
     });
@@ -69,8 +74,8 @@ app.post('/book', function(req, res) {
 
 app.post('/book2', function(req, res) {
   Book.create(req.body, function(err, book) {
-    if(err ) {
-
+    if(err) {
+      
       console.log(err);
       res.send('error saving book');
     } else {
@@ -99,9 +104,14 @@ app.put('/book/:id', function(req, res) {
 //   Book.findOneAndRemove({
 //     _id: req.params.id
 //   }, function(err, book) {
+
+
 //     if(err) {
+
 //       res.send('error removing')
+
 //     } else {
+
 //       console.log(book);
 //       res.status(204);
 //     }
