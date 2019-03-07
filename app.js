@@ -1,9 +1,11 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var Book = require('./Book.model');
 var expressValidator=require('express-validator');
+var mongoose = require('mongoose');
+
+var Book = require('./Book.model');
+var validator = require('./helper/index');
 
 var port = 8080;
 var db = 'mongodb://localhost/example';
@@ -14,6 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+//used as middleware
 app.use(expressValidator());
 
 app.get('/', function(req, res) {
@@ -62,7 +65,7 @@ app.post('/book', function(req, res) {
   newBook.image = req.body.image;
 
 
-  newBook.save(function(err, book) {
+  newBook.save(validator.createValiedator,function(err, book) {
     if(err) {
       res.send('error saving book');
     } else {
@@ -72,7 +75,7 @@ app.post('/book', function(req, res) {
   });
 });
 
-app.post('/book2', function(req, res) {
+app.post('/book2',validator.createValiedator,function(req, res) {
   Book.create(req.body, function(err, book) {
     if(err) {
       
@@ -118,6 +121,7 @@ app.put('/book/:id', function(req, res) {
 //   });
 // });
 
-app.listen(port, function(){
+app.listen(port, function()
+{
   console.log('app listening on port ' + port);
 });
