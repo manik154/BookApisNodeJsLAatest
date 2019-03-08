@@ -3,14 +3,14 @@ var app = express();
 var bodyParser = require('body-parser');
 var expressValidator=require('express-validator');
 var mongoose = require('mongoose');
-
 var Book = require('./Book.model');
 var validator = require('./helper/index');
-
 var port = 8080;
 var db = 'mongodb://localhost/example';
 
-mongoose.connect(db);
+mongoose.connect(db).then(() => console.log("mongodb connected")).catch(err => console.log(err));
+//In the above code we require Mongoose and connect to our MongoDB 
+//database. The database is called example and if all went well, you will now see mongodb connected... in your terminal.
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
